@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="online.shixun.project.mapper.ExperienceDaoMyBatis">
+    <!-- 分页查询工作经验 -->
+	<select id="getExperiencePages" resultType="ExperienceEntity">
+		SELECT
+			id,
+			title,
+			period,
+			brief,
+			indexNo,
+			createTime
+		FROM 
+		    t_experience
+		WHERE
+		    language=#{language}
+		ORDER BY
+		    indexNo
+	</select>
+	
+	<!-- 查询工作经验总记录数 -->
+	<select id="getExperiencesCount" resultType="Integer">
+        SELECT 
+            count(*) 
+        FROM 
+            t_experience
+        WHERE
+            language=#{language}
+    </select>
+    
+    <!-- 查询所有工作经验数据 -->
+	<select id="getAllExperiences" resultType="ExperienceEntity">
+        SELECT
+            id,
+            title,
+            period,
+            brief,
+            indexNo,
+            createTime
+        FROM 
+            t_experience
+        WHERE
+            language=#{language}
+        ORDER BY
+            indexNo
+    </select>
+	
+	<!-- 根据id查询指定工作经验数据 -->
+	<select id="getExperience" resultType="ExperienceEntity">
+        SELECT
+            id,
+            title,
+            period,
+            brief,
+            indexNo,
+            language,
+            createTime
+        FROM 
+            t_experience
+        WHERE
+            id=#{id}
+    </select>
+    
+    <!-- 保存工作经验数据 -->
+	<insert id="saveExperience">
+        INSERT INTO t_experience (
+            title,
+            period,
+            brief,
+            indexNo,
+            language,
+            createTime
+        )
+        VALUES(
+            #{title},
+            #{period},
+            #{brief},
+            #{indexNo},
+            #{language},
+            #{createTime}
+        )
+    </insert>
+
+    <!-- 更新工作经验数据 -->
+    <update id="updateExperience">
+        UPDATE 
+             t_experience
+        SET 
+             title = #{title},
+             period = #{period},
+             brief = #{brief},
+             indexNo = #{indexNo},
+             language = #{language},
+             createTime = #{createTime}
+        WHERE
+            id = #{id}
+    </update>
+    
+    <!-- 删除工作经验数据 -->
+    <delete id="deleteExperience">
+        DELETE FROM
+             t_experience
+        WHERE
+            id = #{id}
+    </delete>
+</mapper>

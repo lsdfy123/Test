@@ -1,0 +1,36 @@
+﻿﻿<script>
+    $(function() {
+        //基于SVG的轻量级js圆形进度条插件
+        $('#skills .circle').each(function(index, el) {
+            var percentage = $(this).data('level');
+            Circles.create({
+                id : 'circles-' + index,
+                percentage : percentage,
+                radius : 80,
+                width : 10,
+                number : percentage / 1,
+                text : '%',
+                colors : [ '#ffffff', '#a2e0aa' ]
+            });
+        });
+    });
+</script>
+<div class="container">
+	<h3>
+		<!-- <spring:message code="section.skill" /> -->
+		<span th:text="#{section.skill}"></span>
+	</h3>
+	<div class="strip text-center">
+		<img src="images/skill.png" alt=" " class="edit-btn" data-url="/skill/form" data-title="编辑我的技能"/>
+	</div>
+	<div class="skill-grids">
+		<!-- <c:forEach var="item" items="${skills }" varStatus="status"> -->
+		<tr th:each="item,status:${skills }">
+			<div class="col-md-2 col-sm-4 col-xs-6 skills-grid text-center">
+				<div class="circle" id="circles-${status.index }" data-level="${item.level }"></div>
+				<p th:text="${item.name }"></p>
+			</div>
+		</tr>
+		<div class="clearfix"></div>
+	</div>
+</div>

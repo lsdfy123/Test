@@ -1,0 +1,95 @@
+﻿<script>
+    $(function() {
+        var $honorForm = $('#honorForm');
+
+        //定义FormOptions
+        var submitFormOptions = {
+            url :'/honor/save',
+            type : 'POST',
+            success : function(data) {
+                //跟据状态判断是否保存成功
+                if (data.status == '0') {
+                    toastr.success(Message.save_success);
+                    //触发编辑荣誉按钮，重新加载荣誉列表数据
+                    $('#honor .edit-btn').click();
+
+                    //加载（刷新）主页面荣誉数据
+                    loadHonorContent();
+                    //关闭窗口
+                    closeModalWindow();
+                } else {
+                    toastr.error(Message.save_fail + data.data);
+                }
+            },
+            error : function(context, xhr) {
+                toastr.error(Message.save_fail + context.responseText);
+            }
+        };
+
+        //保存
+        $honorForm.find('.save-btn').click(function(e) {
+            //输入有效性验证
+            var isValid = $honorForm.validationEngine('validate', {
+                scroll : false,
+                autoHidePrompt : true,
+                // 自定义错误提示
+                custom_error_messages : {}
+            });
+            // 校验不通过不提交到后台
+            if (!isValid) {
+                return false;
+            }
+
+            //提交ajax form请求
+            $honorForm.ajaxSubmit(submitFormOptions);
+        })
+
+    });
+</script>
+
+<!-- 荣誉管理表单 -->
+<form id="honorForm" name="honor" method="post">
+	<form:hidden path="honor.id" />
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		</button>
+		<h4 class="modal-title" id="exampleModalLabel">
+			<!-- <spring:message code="section.honor" /> -->
+			<span th:text="#{section.honor}"></span>
+		</h4>
+	</div>
+	<div class="modal-body">
+		<div class="row">
+			<div class="col-md-6">
+				<div class="form-group">
+					<!-- <label for="name" class="control-label"><spring:message code="honor.name" />：</label> -->
+					<label for="name" class="control-label"><span th:text="#{honor.name}"></span>：</label>
+					<form:input path="honor.name" class="form-control validate[required]" maxlength="100" placeholder="..." />
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="form-group">
+					<!-- <label for="period" class="control-label"><spring:message code="honor.indexNo" />：</label> -->
+					<label for="period" class="control-label"><span th:text="#{honor.indexNo}"></span>：</label>
+					<form:input path="honor.indexNo" class="form-control validate[required]" type="number" min="0" step="1" placeholder="..." />
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<!-- <label for="brief" class="control-label"><spring:message code="honor.brief" />：</label> -->
+			<label for="brief" class="control-label"><span th:text="#{honor.brief}"></span>：</label>
+			<form:textarea path="honor.brief" class="form-control validate[required]" maxlength="200" />
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-default" data-dismiss="modal">
+			<!-- <spring:message code="button.close" /> -->
+			<span th:text="#{button.close}"></span>
+		</button>
+		<button type="button" class="btn btn-primary save-btn">
+			<!-- <spring:message code="button.save" /> -->
+			<span th:text="#{button.save}"></span>
+		</button>
+	</div>
+</form>

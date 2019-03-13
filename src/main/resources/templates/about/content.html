@@ -1,0 +1,93 @@
+﻿<div class="container">
+	<h3 class="text-center">
+		<span th:text="#{section.about.me}"></span>
+	</h3>
+	<div class="strip text-center">
+		<img src="images/about.png" alt=" " class="edit-btn" data-url="/about/form" />
+	</div>
+	<div class="container row">
+		<div class="about-grids">
+			<!-- 姓名 -->
+			<div class="col-md-4 ">
+				<h4>
+					<span th:text="#{about.me.name}"></span>
+					：
+					<span th:text="${aboutMe.name}"></span>
+				</h4>
+			</div>
+			<!-- 性别 -->
+			<div class="col-md-4 ">
+				<h4>
+					<span th:text="#{about.me.gender}"></span>
+					：
+					<span th:if="${aboutMe.gender=='Male'}">
+						<span th:text="#{about.me.gender.male}"></span>
+					</span>
+					<span th:if="${aboutMe.gender=='Female' }">
+						<span th:text="#{about.me.gender.female}"></span>
+					</span>
+				</h4>
+			</div>
+			<!-- 生日 -->
+			<div class="col-md-4 ">
+				<h4>
+					<span th:text="#{about.me.birthday}"></span>
+					：
+					<span th:text="${aboutMe.birthdayStr}"></span>
+				</h4>
+			</div>
+		</div>
+		<div class="about-grids">
+			<!-- 教育程度 -->
+			<div class="col-md-4 ">
+				<h4>
+					<span th:text="#{about.me.education.degree}"></span>
+					：
+					<span th:text="${aboutMe.educationDegree.name}"></span>
+				</h4>
+			</div>
+			<!-- 工作年限 -->
+			<div class="col-md-4 ">
+				<h4>
+					<span th:text="#{about.me.working.years}"></span>
+					：
+					<span th:text="${aboutMe.workingYears}"></span>
+				</h4>
+			</div>
+			<!-- 工作状态 -->
+			<div class="col-md-4 ">
+				<h4>
+					<span th:text="#{about.me.working.status}"></span>
+					：
+					<span th:text="${aboutMe.workingStatus.name}"></span>
+				</h4>
+			</div>
+		</div>
+		<div class="about-grids">
+			<!-- 居住地 -->
+			<div class="col-md-4 ">
+				<h4>
+					<span th:text="#{about.me.residence}"></span>
+					：
+					<span th:text="${aboutMe.residence}"></span>
+				</h4>
+			</div>
+			<!-- 邮件 -->
+			<div class="col-md-4 ">
+				<h4>
+					<span th:text="#{about.me.email}"></span>
+					：
+					<span th:text="${aboutMe.email}"></span>
+				</h4>
+			</div>
+			<!-- 手机 -->
+			<div class="col-md-4 ">
+				<h4>
+					<span th:text="#{about.me.mobile}"></span>
+					：
+					<span th:text="${aboutMe.mobile}"></span>
+				</h4>
+			</div>
+		</div>
+	</div>
+</div>

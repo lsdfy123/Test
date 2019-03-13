@@ -1,0 +1,153 @@
+﻿<script>
+    $(function() {
+        //弹出顶部导航菜单
+        $('#activator').click(function() {
+            $('#box').animate({
+                'top' : '0px'
+            }, 500);
+        });
+
+        //关闭顶部导航菜单
+        $('#boxclose').click(function() {
+            $('#box').animate({
+                'top' : '-1000px'
+            }, 500);
+        });
+
+        // 选取一张图片，并预览
+        $("#avatarImgFileInput").on("change", function(e) {
+            // 获取图片资源
+            var file = e.target.files[0];
+            // 只选择图片文件
+            if (!file.type.match('image.*')) {
+                return false;
+            }
+            // 定义文件读取器
+            var reader = new FileReader();
+            // 读取文件
+            reader.readAsDataURL(file);
+            // 选择图片文件后，进行图片预览
+            reader.onload = function(arg) {
+                $("#avatarImgPreview").attr("src", arg.target.result);
+            }
+
+            //ajax 提交
+            $("#avatarForm").ajaxSubmit({
+                url : "/home/save/avatar",
+                dataType : "json",
+                data : {},
+                success : function(result) {
+                    console.log(result);
+                    if (result.status == 0) {
+                        toastr.success('头像上传成功！');
+                    } else {
+                        toastr.error(result.data);
+                    }
+                },
+                complete : function(data) {
+                }
+            });
+        });
+    });
+</script>
+<div class="container">
+	<!-- container class 用于包裹页面上的内容 -->
+	<div class="top-header row">
+		<!--top-nav-->
+		<div class="logo" th:text="${aboutMe.name}"></div>
+
+		<div class="top-nav">
+			<div class="nav-icon">
+				<a href="#" class="right-bt" id="activator">
+					<span> </span>
+				</a>
+			</div>
+			<div class="dropdown">
+				<a class=" dropdown-toggle" type="button" id="languageMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+					<span th:text="#{switch.language}"></span>
+					<span class="caret"></span>
+				</a>
+				<ul class="dropdown-menu" aria-labelledby="languageMenu">
+					<li>
+						<a th:href="@{/?lang=zh_CN}">中文</a>
+					</li>
+					<li>
+						<a th:href="@{/?lang=en_US}">English</a>
+					</li>
+				</ul>
+			</div>
+			<div class="box" id="box">
+				<div class="box-content">
+					<div class="box-content-center">
+						<div class="form-content">
+							<div class="menu-box-list">
+								<ul>
+									<li>
+										<a class="scroll" href="#home">
+											<span th:text="#{section.home}"></span>
+										</a>
+									</li>
+									<li>
+										<a class="scroll" href="#about">
+											<span th:text="#{section.about.me}"></span>
+										</a>
+									</li>
+									<li>
+										<a class="scroll" href="#skills">
+											<span th:text="#{section.skill}"></span>
+										</a>
+									</li>
+									<li>
+										<a class="scroll" href="#education">
+											<span th:text="#{section.education}"></span>
+										</a>
+									</li>
+									<li>
+										<a class="scroll" href="#experience">
+											<span th:text="#{section.experience}"></span>
+										</a>
+									</li>
+									<li>
+										<a class="scroll" href="#honor">
+											<span th:text="#{section.honor}"></span>
+										</a>
+									</li>
+									<li>
+										<a class="scroll" href="#hobby">
+											<span th:text="#{section.hobby}"></span>
+										</a>
+									</li>
+								</ul>
+							</div>
+							<a class="boxclose" id="boxclose">
+								<span></span>
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="clearfix"></div>
+	</div>
+	<div class="banner-info row">
+		<div class="banner-left col-md-3 col-md-offset-2">
+			<div class="upload-avatar">
+				<form id="avatarForm" action="#" method="post">
+					<!-- 图片选择输入框 -->
+					<input id="avatarImgFileInput" type="file" name="avatar" accept="image/*" style="display: none" /> 
+					<img id="avatarImgPreview" th:src="@{'/images/' + ${avatar}}" class="avatar corners img-circle" />
+					<p>
+						<label for="avatarImgFileInput" class="select-avatar-label" >
+						<span th:text="#{label.select.avatar}"></span></label>
+					</p>
+				</form>
+			</div>
+		</div>
+		<div class="banner-right col-md-7">
+			<h1 th:text="${aboutMe.name}"></h1>
+			<div class="border"></div>
+			<h2 th:text="${aboutMe.motto}"></h2>
+		</div>
+		<div class="clearfix"></div>
+	</div>
+</div>

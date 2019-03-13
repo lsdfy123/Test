@@ -1,0 +1,78 @@
+﻿<script>
+    //编辑教育经历
+    function doEditHonor(id) {
+        openModalWindow('/honor/edit/' + id, null);
+    }
+
+    //删除教育经历
+    function doDeleteHonor(id) {
+        bootbox.confirm(Message.is_confirm_delete, function(result) {
+            if (result == true) {
+                // 发送ajax请求删除
+                $.ajax({
+                    url :'/honor/delete/' + id,
+                    type : 'DELETE',
+                    success : function(data) {
+                        // 如果状态为0表示删除成功
+                        if (data.status == '0') {
+                            toastr.success(Message.delete_success);
+                            //删除成功后，触发编辑荣誉按钮，重新加载荣誉列表数据
+                            $('#honor .edit-btn').click();
+
+                            //加载（刷新）主页面荣誉数据
+                            loadHonorContent();
+                        } else {
+                            toastr.error(Message.delete_fail + data.data);
+                        }
+                    }
+                });
+            }
+        });
+    }
+</script>
+
+<!-- 荣誉管理页面 -->
+<div id="honorMainPanel" class="form-group col-md-12">
+	<!-- 保存当前页数（第几页） -->
+	<input type="hidden" class="current-page" value="1" />
+	<!-- 新增教育经历按钮 -->
+	<a class="btn btn-success btn-sm" href="JavaScript:openModalWindow('/honor/add',null);">
+		<i class="fa fa-plus"></i>
+		<!--<spring:message code="button.add" /> -->
+		<span th:text="#{button.add}"></span>
+	</a>
+	<div id="honorList">
+		<!-- 列表显示所有荣誉数据 -->
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th>#</th>
+					<th><span th:text="#{honor.name}"></span></th>
+					<th><span th:text="#{honor.brief}"></span></th>
+					<th width="10%"><span th:text="#{label.operate}"></span></th>
+				</tr>
+			</thead>
+			<tbody>
+				<!-- <c:forEach var="item" items="${honors }" varStatus="status"> -->
+					<tr th:each="item,status:${honors }">
+						<!-- <th scope="row">${status.index + 1  }</th> -->
+						<th scope="row" th:text="${status.count}"></th>
+						<!-- <td>${item.name }</td> -->
+						<td th:text="${item.name }"></td>
+						<!-- <td>${item.brief }</td> -->
+						<td th:text="${item.brief }"></td>
+						<td><button type="button" class="btn btn-primary btn-xs" onclick="doEditHonor('${item.id}')">
+								<i class="fa fa-pencil fa-fw"></i>
+								<!-- <spring:message code="button.edit" /> -->
+								<span th:text="#{button.edit}"></span>
+							</button>
+							<button type="button" class="btn btn-danger btn-xs" onclick="doDeleteHonor('${item.id}')">
+								<i class="fa fa-trash-o fa-fw"></i>
+								<!-- <spring:message code="button.delete" /> -->
+								<span th:text="#{button.delete}"></span>
+							</button></td>
+					</tr>
+			</tbody>
+		</table>
+	</div>
+</div>

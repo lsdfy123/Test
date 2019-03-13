@@ -1,0 +1,26 @@
+﻿<div class="container">
+	<div class="edu-info text-center">
+		<h3>
+			<!-- <spring:message code="section.education" /> -->
+			<span th:text="#{section.education}"></span>
+		</h3>
+	</div>
+	<div class="strip text-center">
+		<img src="images/edu.png" alt=" " class="edit-btn" data-url="/education/main" th:data-title="#{section.education}" />
+	</div>
+	<!-- 循环输出教育经历信息 -->
+	<!-- <c:forEach var="item" items="${educations}" varStatus="status"> -->
+	<tr th:each="item,status:${educations}">
+		<div class="edu-grid">
+			<div class="col-md-6 edu-grid-left">
+				<!-- <h4>${item.period }</h4> -->
+				<h4 th:text="${item.period }"></h4>
+			</div>
+			<div class="col-md-6 edu-grid-right">
+				<h5 th:text="${item.title }"></h5>
+				<p th:text="${item.brief }"></p>
+			</div>
+			<div class="clearfix"></div>
+		</div>
+	</tr>
+</div>

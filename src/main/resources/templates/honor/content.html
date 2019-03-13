@@ -1,0 +1,30 @@
+﻿<script>
+    $(function() {
+
+    });
+</script>
+
+<div class="container">
+	<div class="honor-info">
+		<h3>
+			<!-- <spring:message code="section.honor" /> -->
+			<span th:text="#{section.honor}"></span>
+		</h3>
+	</div>
+	<div class="strip text-center">
+		<!-- <img src="images/honor.png" alt=" " class="edit-btn" data-url="/honor/main" data-title="<spring:message code="section.honor" />"/> -->
+		<img src="images/honor.png" alt=" " class="edit-btn" data-url="/honor/main" th:data-title="#{section.honor}"/>
+	</div>
+	<div class="honor-grids">
+		<!-- <c:forEach var="item" items="${honors }" varStatus="status"> -->
+			<tr th:each="item,status:${honors }">
+			<div class="col-md-3 col-sm-6 honor-grid">
+				<!--<h3>${item.name }</h3>  -->
+				<h3 th:text="${item.name }"></h3>
+				<!-- <p>${item.brief }</p> -->
+				<p th:text="${item.brief }"></p>
+			</div>
+		</tr>
+		<div class="clearfix"></div>
+	</div>
+</div>

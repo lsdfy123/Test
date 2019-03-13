@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="online.shixun.project.mapper.EducationDaoMyBatis">
+    <!-- 分页查询教育经历 -->
+	<select id="getEducationPages" resultType="EducationEntity">
+		SELECT
+			id,
+			title,
+			period,
+			brief,
+			indexNo,
+			createTime
+		FROM 
+		    t_education
+		WHERE
+		    language=#{language}
+		ORDER BY
+		    indexNo
+	</select>
+	
+	<!-- 查询教育经历总记录数 -->
+	<select id="getEducationsCount" resultType="Integer">
+        SELECT 
+            count(*) 
+        FROM 
+            t_education
+        WHERE
+            language=#{language}
+    </select>
+    
+    <!-- 查询所有教育经历数据 -->
+	<select id="getAllEducations" resultType="EducationEntity">
+        SELECT
+            id,
+            title,
+            period,
+            brief,
+            indexNo,
+            createTime
+        FROM 
+            t_education
+        WHERE
+            language=#{language}
+        ORDER BY
+            indexNo
+    </select>
+	
+	<!-- 根据id查询指定教育经历数据 -->
+	<select id="getEducation" resultType="EducationEntity">
+        SELECT
+            id,
+            title,
+            period,
+            brief,
+            indexNo,
+            language,
+            createTime
+        FROM 
+            t_education
+        WHERE
+            id=#{id}
+    </select>
+    
+    <!-- 保存教育经历数据 -->
+	<insert id="saveEducation">
+        INSERT INTO t_education (
+            title,
+            period,
+            brief,
+            indexNo,
+            language,
+            createTime
+        )
+        VALUES(
+            #{title},
+            #{period},
+            #{brief},
+            #{indexNo},
+            #{language},
+            #{createTime}
+        )
+    </insert>
+
+    <!-- 更新教育经历数据 -->
+    <update id="updateEducation">
+        UPDATE 
+             t_education
+        SET 
+             title = #{title},
+             period = #{period},
+             brief = #{brief},
+             indexNo = #{indexNo},
+             language = #{language},
+             createTime = #{createTime}
+        WHERE
+            id = #{id}
+    </update>
+    
+    <!-- 删除教育经历数据 -->
+    <delete id="deleteEducation">
+        DELETE FROM
+             t_education
+        WHERE
+            id = #{id}
+    </delete>
+</mapper>

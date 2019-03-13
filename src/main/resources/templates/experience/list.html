@@ -1,0 +1,39 @@
+<!-- 工作经验数据列表 -->
+<table class="table table-striped">
+	<thead>
+		<tr>
+			<th>#</th>
+			<!-- <th><spring:message code="experience.period" /></th> -->
+			<th><span th:text="#{experience.period}"></span></th>
+			<!-- <th><spring:message code="experience.title" /></th> -->
+			<th><span th:text="#{experience.title}"></span></th>
+			<!-- <th><spring:message code="experience.brief" /></th> -->
+			<th><span th:text="#{experience.brief}"></span></th>
+			<!-- <th width="10%"><spring:message code="label.operate" /></th> -->
+			<th width="10%"><span th:text="#{label.operate}"></span></th>
+		</tr>
+	</thead>
+	<tbody>
+		<!-- <c:forEach var="item" items="${experiences }" varStatus="status"> -->
+			<tr th:each="item,status:${experiences }">
+				<!-- <th scope="row">${status.index + 1  }</th> -->
+				<th scope="row" th:text="${status.count}"></th>
+				<!-- <td>${item.period }</td> -->
+				<td th:text="${item.period }"></td>
+				<!--  --><td>${item.title }</td>
+				<td th:text="${item.title }"></td>
+				<!--  --><td>${item.brief }</td>
+				<td th:text="${item.brief }"></td>
+		<td><button type="button" class="btn btn-primary btn-xs" onclick="doEditExperience('${item.id}')">
+						<i class="fa fa-pencil fa-fw"></i>
+						<!-- <spring:message code="button.edit" /> -->
+						<span th:text="#{button.edit}"></span>
+					</button>
+					<button type="button" class="btn btn-danger btn-xs" onclick="doDeleteExperience('${item.id}')">
+						<i class="fa fa-trash-o fa-fw"></i>
+						<!-- <spring:message code="button.delete" /> -->
+						<span th:text="#{button.delete}"></span>
+					</button></td>
+			</tr>
+	</tbody>
+</table>

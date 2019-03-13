@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="online.shixun.project.mapper.SkillDaoMyBatis">
+    <!-- 查询所有我的专业技能数据 -->
+	<select id="getMySkills" resultType="SkillEntity">
+		SELECT
+			id,
+			name,
+			level,
+			indexNo,
+			createTime
+		FROM 
+		    t_skill
+		WHERE
+		    language=#{language}
+		ORDER BY
+		    indexNo
+	</select>
+	
+	<!-- 保存专业技能 -->
+	<insert id="saveMySkill">
+        INSERT INTO t_skill (
+            name,
+            level,
+            indexNo,
+            language,
+            createTime
+        )
+        VALUES(
+            #{name},
+            #{level},
+            #{indexNo},
+            #{language},
+            #{createTime}
+        )
+    </insert>
+
+    <!-- 更新专业技能 -->
+    <update id="updateMySkill">
+        UPDATE 
+             t_skill
+        SET 
+             name = #{name},
+             level = #{level},
+             indexNo = #{indexNo},
+             language = #{language},
+             createTime = #{createTime}
+        WHERE
+            id = #{id}
+    </update>
+</mapper>

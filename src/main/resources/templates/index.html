@@ -1,0 +1,272 @@
+﻿<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>我的简历</title>
+<!-- for-mobile-apps -->
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<!-- 设置编码格式为utf-8 -->
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<!-- 引用jQuery原生的js文件 -->
+<script type="text/javascript" th:src="@{/plugins/jquery-1.9.1.min.js}"></script>
+<!-- 引用bootstrap原生的css文件 -->
+<link th:href="@{/plugins/bootstrap/bootstrap.css}" rel="stylesheet" type="text/css" media="all" />
+<!-- 引用bootstrap原生的js文件 -->
+<script type="text/javascript" th:src="@{/plugins/bootstrap/bootstrap.min.js}"></script>
+<link rel="stylesheet" th:href="@{/plugins/fontawesome/font-awesome.min.css}" />
+<script type="text/javascript" th:src="@{/plugins/circles/circles.js}"></script>
+<!-- 基于 ajax form 提交插件 -->
+<script th:src="@{/plugins/jquery.form.js}"></script>
+<!-- 加载等待插件 https://github.com/vadimsva/waitMe -->
+<link rel="stylesheet" th:href="@{/plugins/waitme/waitMe.css}" />
+<script th:src="@{/plugins/waitme/waitMe.js}"></script>
+<!-- 输入有效性验证插件 -->
+<link rel="stylesheet" th:href="@{/plugins/validate/validationEngine.jquery.css}" />
+<script th:src="@{/plugins/validate/jquery.validationEngine.js}"></script>
+<script th:src="@{'/plugins/validate/locales/jquery.validationEngine-' + ${language} + '.js'}"></script>
+<!-- 警告提示框插件（替换js默认alert函数） http://bootboxjs.com -->
+<script th:src="@{/plugins/bootbox/bootbox.min.js}"></script>
+<!-- 消息提示插件 http://codeseven.github.io/toastr/demo.html -->
+<link rel="stylesheet" th:href="@{/plugins/bootstrap-toastr/toastr.css}" />
+<script th:src="@{/plugins/bootstrap-toastr/toastr.js}"></script>
+<!-- 日期选择插件 https://github.com/uxsolutions/bootstrap-datepicker -->
+<link rel="stylesheet" th:href="@{/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.css}" />
+<script th:src="@{/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js}"></script>
+<script th:src="@{'/plugins/bootstrap-datepicker/js/locales/bootstrap-datepicker.'+ ${language} + '.js'}"></script>
+<!-- 数据分页处理插件 https://github.com/esimakin/twbs-pagination -->
+<script th:src="@{/plugins/pagination/jquery.twbsPagination.js}"></script>
+<!-- 根据当前语言环境，引入前端 JS 消息提示信息 -->
+<script th:src="@{'/js/message_' + ${language} + '.js'}"></script>
+<!-- 引用自定义的css文件 -->
+<link th:href="@{/css/style.css}" rel="stylesheet" type="text/css" media="all" />
+<script th:inline="javascript">
+    //当前语言环境，在 IndexController.java 中传入
+    var language = [[${language}]];
+</script>
+</head>
+
+<body>
+	<!-- banner -->
+	<div class="banner" id="home"></div>
+	<!--about-->
+	<div class="about" id="about"></div>
+	<!--my skill-->
+	<div class="my-skills text-center" id="skills"></div>
+	<!--education-->
+	<div class="education" id="education"></div>
+	<!--work-->
+	<div class="work-experience text-center" id="experience"></div>
+	<!--honor-->
+	<div class="honor text-center" id="honor"></div>
+	<!--hobby-->
+	<div class="hobby text-center" id="hobby"></div>
+	<!--contact-->
+	<div class="contact" id="contact"></div>
+	<!-- download resume -->
+	<div class="download-resume text-center" id="downloadResume"></div>
+	<!--footer-->
+	<div class="footer">
+		<div class="container">
+			<p th:text="#{copyright}">Copyright</p>
+		</div>
+	</div>
+
+	<!-- 内容编辑窗口 -->
+	<div id="editPanel" class="edit-panel">
+		<div class="edit-panel-header">
+			<button type="button" class="close" data-dismiss="edit-panel"
+				aria-label="Close">
+				<span aria-hidden="true">&times;</span> <span class="sr-only">Close</span>
+			</button>
+			<h4 class="edit-panel-title">...</h4>
+		</div>
+		<div class="edit-panel-body row"></div>
+	</div>
+
+	<script type="text/javascript">
+        var $editPanel;
+        $(function() {
+            //设置 bootbox 插件的语言环境
+            bootbox.setLocale(language);
+
+            $editPanel = $('#editPanel');
+
+            //关闭编辑窗口
+            $('#editPanel').on('click', '.close', function(event) {
+                event.preventDefault();
+                closeEditContentWindow();
+            });
+
+            //首页
+            loadHomeContent();
+            //关于我
+            loadAboutMeContent();
+            //专业技能
+            loadMySkillsContent();
+            //教育经历
+            loadEducationContent();
+            //工作经验
+            loadExperienceContent();
+            //荣誉
+            loadHonorContent();
+            //爱好
+            loadHobbyContent();
+            //联系我
+            loadContactContent();
+            //下载简历
+            loadDownloadResumeContent();
+        });
+
+        function loadHomeContent() {
+            loadViewContent($('#home'), '/home/content');
+        }
+
+        function loadAboutMeContent() {
+            loadViewContent($('#about'), '/about/content');
+        }
+
+        function loadMySkillsContent() {
+            loadViewContent($('#skills'), '/skill/content');
+        }
+
+        function loadEducationContent() {
+            loadViewContent($('#education'), '/education/content');
+        }
+
+        function loadExperienceContent() {
+            loadViewContent($('#experience'), '/experience/content');
+        }
+
+        function loadHonorContent() {
+            loadViewContent($('#honor'), '/honor/content');
+        }
+
+        function loadHobbyContent() {
+            loadViewContent($('#hobby'), '/hobby/content');
+        }
+
+        function loadContactContent() {
+            loadViewContent($('#contact'), '/contact/content');
+        }
+
+        function loadDownloadResumeContent() {
+            loadViewContent($('#downloadResume'), '/download/content');
+        }
+
+        //在主页面中加载显示内容
+        function loadViewContent(target, url) {
+            //显示加载中提示
+            startLoading(target);
+            //执行内容加载
+            target.load( url, function(e) {
+                //关闭加载中提示
+                stopLoading(target);
+
+                //从浏览器底部弹出编辑窗口
+                target.on('click', '.edit-btn', function(event) {
+                    event.preventDefault();
+                    var title = $(this).data('title');
+                    var url = $(this).data('url');
+                    openEditContentWindow(title, url);
+                });
+            });
+        }
+
+        //加载编辑内容
+        function loadEditContent(title, url) {
+            //编辑窗口标题
+            $editPanel.find('.edit-panel-title').html(title);
+            //加载内容
+            $editPanel.find('.edit-panel-body').load(url, function(e) {
+                //编辑表单中的取消按钮事件
+                $(this).find('.cancel-btn').click(function(e) {
+                    closeEditContentWindow();
+                });
+            });
+        }
+
+        //打开编辑窗口
+        function openEditContentWindow(title, url) {
+            $('#editPanel').animate({
+                'left' : '0px',
+                'bottom' : '0px'
+            }, 300, function(e) {
+                loadEditContent(title, url);
+            });
+        }
+
+        //关闭编辑窗口
+        function closeEditContentWindow() {
+            $('#editPanel').animate({
+                'left' : '0px',
+                'bottom' : '-450px'
+            }, 300, function(e) {
+                //清空编辑窗口标题
+                $editPanel.find('.edit-panel-title').html('');
+                //清空编辑窗口内容
+                $editPanel.find('.edit-panel-body').html('')
+            });
+        }
+
+        //打开模式窗口（弹出窗口）
+        function openModalWindow(url, data) {
+            // 防止重复打开多个模式窗口
+            if ($('.modal-backdrop').is(':visible')) {
+                return false;
+            }
+            var $modal = $('<div class="modal fade"  tabindex="-1"><div class="modal-dialog"><div class="modal-content"><div class="modal-content-loading">加载中...</div></div></div></div>');
+
+            // backdrop:static 静态,点击遮罩层不关闭
+            // backdrop:true 动态,点击遮罩层关闭
+            // backdrop:false 无遮罩层
+            $modal.modal({
+                backdrop : 'static',
+                keyboard : true
+            });
+
+            $modal.on('shown.bs.modal', function() {
+                $modal.find('.modal-content').load(appendUrlTimestamp(url), data, function() {
+                });
+            });
+
+            // 关闭modal时销毁modal
+            $modal.on('hidden.bs.modal', function() {
+                $(this).remove();
+            });
+            return false;
+        }
+
+        //关闭模式窗口
+        function closeModalWindow() {
+            $(".modal-header button.close:last").trigger('click');
+        }
+
+        //为指定 url 增加时间戳（防止页面缓存）
+        function appendUrlTimestamp(url) {
+            if (url.indexOf("?") > 0) {
+                url += "&amp;";
+            } else {
+                url += "?";
+            }
+            return url + new Date().getTime();
+        }
+
+        //显示加载中提示（基于 waitMe 插件实现）
+        function startLoading(target) {
+            target.waitMe({
+                effect : 'bounce',
+                text : '...',
+                bg : 'rgba(255,255,255,0.7)',
+                color : '#000',
+                sizeW : '',
+                sizeH : ''
+            });
+        }
+
+        //停止加载中提示
+        function stopLoading(target) {
+            target.waitMe('hide');
+        }
+    </script>
+</body>
+
+</html>

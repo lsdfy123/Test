@@ -1,0 +1,32 @@
+﻿<!-- 教育经历数据列表 -->
+<table class="table table-striped">
+	<thead>
+		<tr>
+			<th>#</th>
+			<th><span th:text="#{education.period}"></span></th>
+			<th><span th:text="#{education.title}"></span></th>
+			<th><span th:text="#{education.brief}"></span></th>
+			<th width="10%"><span th:text="#{label.operate}"></span></th>
+		</tr>
+	</thead>
+	<tbody>
+		<!-- <c:forEach var="item" items="${educations }" varStatus="status"> -->
+			<tr th:each="item,status:${educations }">
+				<!-- <th scope="row">${status.index + 1  }</th> -->
+				<th scope="row" th:text="${status.count  }"></th>
+				<td th:text="${item.period }"></td>
+				<td th:text="${item.title }"></td>
+				<td th:text="${item.brief }"></td>
+				<td><button type="button" class="btn btn-primary btn-xs" onclick="doEditEducation('${item.id}')">
+						<i class="fa fa-pencil fa-fw"></i>
+						<!-- <spring:message code="button.edit" /> -->
+						<span th:text="#{button.edit}"></span>
+					</button>
+					<button type="button" class="btn btn-danger btn-xs" onclick="doDeleteEducation('${item.id}')">
+						<i class="fa fa-trash-o fa-fw"></i>
+						<!-- <spring:message code="button.delete" /> -->
+						<span th:text="#{button.delete}"></span>
+					</button></td>
+			</tr>
+	</tbody>
+</table>

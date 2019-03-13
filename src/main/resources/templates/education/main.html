@@ -1,0 +1,110 @@
+﻿<input id="totalPage" type="hidden" th:value="${totalPage}"/>
+<script>
+    $(function() {
+        var $educationMainPanel = $('#educationMainPanel');
+        var $educationListPanel = $('#educationList');
+        var $educationListPagingPanel = $educationMainPanel.find('.pagination-control');
+
+        // 总页数
+        var totalPage = $('#totalPage1').val();
+
+        // 解除分页绑定
+        $educationListPagingPanel.empty().removeData("twbs-pagination").unbind("page");
+
+        //如果总页数不为0，则初始化分页插件
+        if (totalPage != 0) {
+            // 初始化分页插件
+            $educationListPagingPanel.twbsPagination({
+                first : Message.paging_first,
+                prev : Message.paging_prev,
+                next : Message.paging_next,
+                last : Message.paging_last,
+                totalPages : totalPage,
+                visiblePages : 6,
+                version : '1.1',
+                onPageClick : function(event, page) {
+                    //分页加载教育经历数据（page为页数，即第几页）
+                    doLoadEducationList(page);
+                }
+            });
+        }
+
+        //根据当前页数，加载教育经历列表
+        doLoadEducationListByCurrentPage();
+    });
+
+    //根据指定页数，加载教育经历列表
+    function doLoadEducationList(pageNo) {
+        $('#educationList').load('/education/list/' + pageNo, function(e) {
+            //设置当前页数
+            setCurrentPage(pageNo);
+        });
+    }
+
+    //根据当前页数，加载教育经历列表
+    function doLoadEducationListByCurrentPage() {
+        doLoadEducationList(getCurrentPage());
+    }
+
+    //编辑教育经历
+    function doEditEducation(id) {
+        openModalWindow('/education/edit/' + id, null);
+    }
+
+    //删除教育经历
+    function doDeleteEducation(id) {
+        bootbox.confirm(Message.is_confirm_delete, function(result) {
+            if (result == true) {
+                // 发送ajax请求删除
+                $.ajax({
+                    url : '/education/delete/' + id,
+                    type : 'DELETE',
+                    success : function(data) {
+                        // 如果状态为0表示删除成功
+                        if (data.status == '0') {
+                            toastr.success(Message.delete_success);
+                            //删除成功后，重新加载教育经历列表数据（根据当前页数）
+                            doLoadEducationListByCurrentPage();
+                            //加载（刷新）主页面教育经历数据
+                            loadExperienceContent();
+                        } else {
+                            toastr.error(Message.delete_fail + data.data);
+                        }
+                    }
+                });
+            }
+        });
+    }
+
+    //设置当前页数
+    function setCurrentPage(pageNo) {
+        $('#educationMainPanel').find('.current-page').val(pageNo);
+    }
+
+    //获取当前页数
+    function getCurrentPage() {
+        return $('#educationMainPanel').find('.current-page').val();
+    }
+</script>
+<!-- 教育经历管理页面 -->
+<div id="educationMainPanel" class="form-group col-md-12">
+	<!-- 保存当前页数（第几页） -->
+	<input type="hidden" class="current-page" value="1" />
+	<!-- 新增教育经历按钮 -->
+	<a class="btn btn-success btn-sm" href="JavaScript:openModalWindow('/education/add',null);">
+		<i class="fa fa-plus"></i>
+		<!-- <spring:message code="button.add" /> -->
+		<span th:text="#{button.add}"></span>
+	</a>
+	<div id="educationList">Loading...</div>
+	<!-- 数据分页区 -->
+	<div class="pagination-wrapper">
+		<div class="inner clearfix">
+			<section id="main-content">
+				<div class="text-center">
+					<ul class="pagination-control"></ul>
+				</div>
+			</section>
+		</div>
+	</div>
+</div>

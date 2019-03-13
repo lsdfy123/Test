@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="online.shixun.project.mapper.HobbyDaoMyBatis">
+
+    <!-- 查询我的所有爱好数据 -->
+	<select id="getMyHobbies" resultType="HobbyEntity">
+		SELECT
+			id,
+			name,
+			indexNo,
+			createTime
+		FROM 
+		    t_hobby
+		WHERE
+		    language=#{language}
+		ORDER BY
+		    indexNo
+	</select>
+	
+	<!-- 保存爱好 -->
+	<insert id="saveMyHobby">
+        INSERT INTO t_hobby (
+            name,
+            indexNo,
+            language,
+            createTime
+        )
+        VALUES(
+            #{name},
+            #{indexNo},
+            #{language},
+            #{createTime}
+        )
+    </insert>
+
+    <!-- 更新爱好 -->
+    <update id="updateMyHobby">
+        UPDATE 
+             t_hobby
+        SET 
+             name = #{name},
+             indexNo = #{indexNo},
+             language = #{language},
+             createTime = #{createTime}
+        WHERE
+            id = #{id}
+    </update>
+</mapper>

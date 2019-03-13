@@ -1,0 +1,16 @@
+﻿<div class="container">
+	<div class="strip text-center">
+		<a href="#">
+			<img src="images/down.png" alt=" " class="edit-btn" data-url="/download/form" th:data-title="#{upload.resume}" />
+		</a>
+	</div>
+	<div class="down">
+		<!-- <c:if test="${aboutMe.resumeFile != null }"> -->
+		<span th:if="${aboutMe.resumeFile != null }">
+			<a th:href="${aboutMe.resumeFile}">
+				<!-- <spring:message code="download.resume" /> -->
+				<span th:text="#{download.resume}"></span>
+			</a>
+		</span>
+	</div>
+</div>

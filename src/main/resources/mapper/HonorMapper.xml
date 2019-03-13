@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="online.shixun.project.mapper.HonorDaoMyBatis">
+    <!-- 查询所有荣誉数据 -->
+	<select id="getAllHonors" resultType="HonorEntity">
+        SELECT
+            id,
+            name,
+            brief,
+            indexNo,
+            createTime
+        FROM 
+            t_honor
+        WHERE
+            language=#{language}
+        ORDER BY
+            indexNo
+    </select>
+	
+	<!-- 根据id查询指定荣誉数据 -->
+	<select id="getHonor" resultType="HonorEntity">
+        SELECT
+            id,
+            name,
+            brief,
+            indexNo,
+            language,
+            createTime
+        FROM 
+            t_honor
+        WHERE
+            id=#{id}
+    </select>
+    
+    <!-- 保存荣誉数据 -->
+	<insert id="saveHonor">
+        INSERT INTO t_honor (
+            name,
+            brief,
+            indexNo,
+            language,
+            createTime
+        )
+        VALUES(
+            #{name},
+            #{brief},
+            #{indexNo},
+            #{language},
+            #{createTime}
+        )
+    </insert>
+
+    <!-- 更新荣誉数据 -->
+    <update id="updateHonor">
+        UPDATE 
+             t_honor
+        SET 
+             name = #{name},
+             brief = #{brief},
+             indexNo = #{indexNo},
+             language = #{language},
+             createTime = #{createTime}
+        WHERE
+            id = #{id}
+    </update>
+    
+    <!-- 删除荣誉数据 -->
+    <delete id="deleteHonor">
+        DELETE FROM
+             t_honor
+        WHERE
+            id = #{id}
+    </delete>
+</mapper>

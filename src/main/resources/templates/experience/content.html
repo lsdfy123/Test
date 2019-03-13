@@ -1,0 +1,30 @@
+<div class="container">
+	<div class="work-info">
+		<h3>
+			<!-- <spring:message code="section.experience" /> -->
+			<span th:text="#{section.experience}"></span>
+		</h3>
+	</div>
+	<div class="strip text-center">
+		<!-- <img src="images/work.png" alt=" " class="edit-btn" data-url="/experience/main" data-title="<spring:message code="section.experience" />"/> -->
+		<img src="images/work.png" alt=" " class="edit-btn" data-url="/experience/main" th:data-title="#{section.experience}"/>
+	</div>
+	<div class="work-grids">
+		<!-- <c:forEach var="item" items="${experiences}" varStatus="status"> -->
+			<tr th:each="item,status:${experiences}">
+			<div class="col-md-4 w-grid">
+				<div class="work-grid">
+					<!-- <h3>${item.period }</h3> -->
+					<h3 th:text="${item.period }"></h3>
+					<div class="work-grid-info">
+						<!-- <h4>${item.title }</h4> -->
+						<h4 th:text="${item.title }"></h4>
+						<!-- <p>${item.brief }</p> -->
+						<p th:text="${item.brief }"></p>
+					</div>
+				</div>
+			</div>
+		</tr>
+		<div class="clearfix"></div>
+	</div>
+</div>

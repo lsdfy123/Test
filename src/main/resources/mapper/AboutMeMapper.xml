@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="online.shixun.project.mapper.AboutMeDaoMapper">
+	<select id="getAboutMe" resultType="AboutMeEntity">
+		SELECT 
+		    am.id,
+			am.name,
+			am.gender,
+			am.birthday,
+			am.motto,
+			am.residence,
+			am.email,
+			am.mobile,
+			am.language,
+			am.createTime,
+			am.workingYears,
+			am.resumeFile,
+			ed.id AS "educationDegree.id",
+			ed.name AS "educationDegree.name",
+			ws.id AS "workingStatus.id",
+			ws.name AS "workingStatus.name"
+		FROM 
+			t_about_me am,
+			t_education_degree ed,
+			t_working_status ws
+		WHERE 
+		    am.education_degree_id=ed.id AND
+		    am.working_status_id=ws.id AND
+            am.language=#{language}
+	</select>
+	
+	<insert id="saveAboutMe">
+		INSERT INTO t_about_me (
+			name,
+			gender,
+			birthday,
+			motto,
+			residence,
+			email,
+			mobile,
+			language,
+			createTime,
+			workingYears,
+			education_degree_id,
+			working_status_id
+		)
+		VALUES(
+			#{name},
+			#{gender},
+			#{birthday},
+			#{motto},
+			#{residence},
+			#{email},
+			#{mobile},
+			#{language},
+			#{createTime},
+			#{workingYears},
+			#{educationDegree.id},
+			#{workingStatus.id}
+		)
+	</insert>
+
+	<update id="updateAboutMe">
+		UPDATE 
+		     t_about_me
+		SET 
+			 name = #{name},
+			 gender = #{gender},
+			 birthday = #{birthday},
+			 motto = #{motto},
+			 residence = #{residence},
+			 email = #{email},
+			 mobile = #{mobile},
+			 language = #{language},
+			 createTime = #{createTime},
+			 workingYears = #{workingYears},
+			 education_degree_id = #{educationDegree.id},
+			 working_status_id = #{workingStatus.id}
+		WHERE
+			id = #{id}
+	</update>
+	
+	<update id="updateResumeFile">
+		UPDATE 
+		     t_about_me
+		SET 
+			 resumeFile = #{resumeFile}
+		WHERE
+			id = #{id}
+	</update>
+
+</mapper>

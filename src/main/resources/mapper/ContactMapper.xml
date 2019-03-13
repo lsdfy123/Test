@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="online.shixun.project.mapper.ContactDaoMyBatis">
+    <!-- 查询所有联系我数据 -->
+	<select id="getContacts" resultType="ContactEntity">
+		SELECT
+			id,
+			name,
+			email,
+			message,
+			createTime
+		FROM 
+		    t_contact
+	    WHERE
+            <if test="name !=null and name != '' ">
+                name LIKE CONCAT(CONCAT('%', #{name}),'%') AND
+            </if>
+            <if test="email !=null and email != '' ">
+                email LIKE CONCAT(CONCAT('%', #{email}),'%') AND
+            </if>
+            1=1
+		ORDER BY
+		    createTime
+	</select>
+	
+	<!-- 保存联系我 -->
+	<insert id="saveContact">
+        INSERT INTO t_contact (
+            name,
+            email,
+            message,
+            language,
+            createTime
+        )
+        VALUES(
+            #{name},
+            #{email},
+            #{message},
+            #{language},
+            #{createTime}
+        )
+    </insert>
+
+    <!-- 删除联系我数据 -->
+    <delete id="deleteContact">
+        DELETE FROM
+             t_contact
+        WHERE
+            id = #{id}
+    </delete>
+</mapper>

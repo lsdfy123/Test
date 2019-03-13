@@ -1,0 +1,193 @@
+<script>
+    $(function() {
+        var $hobbyForm = $('#hobbyForm');
+
+        //定义FormOptions
+        var submitFormOptions = {
+            url :'/hobby/save',
+            type : 'POST',
+            success : function(data) {
+                //跟据状态判断是否保存成功
+                if (data.status == '0') {
+                    toastr.success(Message.save_success);
+                    //重新加载爱好数据
+                    loadHobbyContent();
+                    //关闭编辑窗口
+                    closeEditContentWindow();
+                } else {
+                    toastr.error(Message.save_fail + data.data);
+                }
+            },
+            error : function(context, xhr) {
+                toastr.error(Message.save_fail + context.responseText);
+            }
+        };
+
+        //保存
+        $hobbyForm.find('.save-btn').click(function(e) {
+            //输入有效性验证
+            var isValid = $hobbyForm.validationEngine('validate', {
+                scroll : false,
+                autoHidePrompt : true,
+                // 自定义错误提示
+                custom_error_messages : {}
+            });
+            // 校验不通过不提交到后台
+            if (!isValid) {
+                return false;
+            }
+
+            //提交ajax form请求
+            $hobbyForm.ajaxSubmit(submitFormOptions);
+        })
+
+    });
+</script>
+
+<!-- 爱好管理表单 -->
+<form id="hobbyForm" name="education">
+	<div class="col-md-2">
+		<div class="panel panel-default">
+			<div class="panel-heading text-center">
+				<!-- <spring:message code="hobby.label" /> -->
+				<span th:text="#{hobby.label}"></span>
+				1
+			</div>
+			<div class="panel-body">
+				<!--<input type="hidden" name="id" value="${hobbies[0].id }">  -->
+				<input type="hidden" th:value="${hobbies[0].id }" name="id" />
+				<div class="form-group">
+					<div class="hobby-imagea"></div>
+				</div>
+				<div class="form-group">
+					<div class="input-group">
+						<!-- <input type="text" class="form-control validate[required]" name="name" value="${hobbies[0].name }" placeholder="<spring:message code="hobby.name" />..."> -->
+						<input type="text" class="form-control validate[required]" name="name" th:value="${hobbies[0].name }" th:placeholder="#{hobby.name}" />
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-2">
+		<div class="panel panel-success">
+			<div class="panel-heading text-center">
+				<!-- <spring:message code="hobby.label" /> -->
+				<span th:text="#{hobby.label}"></span>
+				2
+			</div>
+			<div class="panel-body">
+				<!-- <input type="hidden" name="id" value="${hobbies[1].id }"> -->
+				<input type="hidden" th:value="${hobbies[1].id }" name="id" />
+				<div class="form-group">
+					<div class="hobby-imageb"></div>
+				</div>
+				<div class="form-group">
+					<div class="input-group">
+						<!-- <input type="text" class="form-control validate[required]" name="name" value="${hobbies[1].name }" placeholder="<spring:message code="hobby.name" />..."> -->
+						<input type="text" class="form-control validate[required]" name="name" th:value="${hobbies[1].name }" th:placeholder="#{hobby.name}" />
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-2">
+		<div class="panel panel-info">
+			<div class="panel-heading text-center">
+				<!--<spring:message code="hobby.label" />  -->
+				<span th:text="#{hobby.label}"></span>
+				3
+			</div>
+			<div class="panel-body">
+				<!-- <input type="hidden" name="id" value="${hobbies[2].id }"> -->
+				<input type="hidden" th:value="${hobbies[2].id }" name="id" />
+				<div class="form-group">
+					<div class="hobby-imagec"></div>
+				</div>
+				<div class="form-group">
+					<div class="input-group">
+						<!-- <input type="text" class="form-control validate[required]" name="name" value="${hobbies[2].name }" placeholder="<spring:message code="hobby.name" />..."> -->
+						<input type="text" class="form-control validate[required]" name="name" th:value="${hobbies[2].name }" th:placeholder="#{hobby.name}" />
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-2">
+		<div class="panel panel-warning">
+			<div class="panel-heading text-center">
+				<!--<spring:message code="hobby.label" />  -->
+				<span th:text="#{hobby.label}"></span>
+				4
+			</div>
+			<div class="panel-body">
+				<!-- <input type="hidden" name="id" value="${hobbies[3].id }"> -->
+				<input type="hidden" th:value="${hobbies[3].id }" name="id" />
+				<div class="form-group">
+					<div class="hobby-imaged"></div>
+				</div>
+				<div class="form-group">
+					<div class="input-group">
+						<!-- <input type="text" class="form-control validate[required]" name="name" value="${hobbies[3].name }" placeholder="<spring:message code="hobby.name" />..."> -->
+						<input type="text" class="form-control validate[required]" name="name" th:value="${hobbies[3].name }" th:placeholder="#{hobby.name}" />
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-2">
+		<div class="panel panel-danger">
+			<div class="panel-heading text-center">
+				<!--<spring:message code="hobby.label" />  -->
+				<span th:text="#{hobby.label}"></span>
+				5
+			</div>
+			<div class="panel-body">
+				<!-- <input type="hidden" name="id" value="${hobbies[4].id }"> -->
+				<input type="hidden" th:value="${hobbies[4].id }" name="id" />
+				<div class="form-group">
+					<div class="hobby-imagee"></div>
+				</div>
+				<div class="form-group">
+					<div class="input-group">
+						<!-- <input type="text" class="form-control validate[required]" name="name" value="${hobbies[4].name }" placeholder="<spring:message code="hobby.name" />..."> -->
+						<input type="text" class="form-control validate[required]" name="name" th:value="${hobbies[4].name }" th:placeholder="#{hobby.name}" />
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-2">
+		<div class="panel panel-primary">
+			<div class="panel-heading text-center">
+				<!--<spring:message code="hobby.label" />  -->
+				<span th:text="#{hobby.label}"></span>
+				6
+			</div>
+			<div class="panel-body">
+				<!-- <input type="hidden" name="id" value="${hobbies[5].id }"> -->
+				<input type="hidden" th:value="${hobbies[5].id }" name="id" />
+				<div class="form-group">
+					<div class="hobby-imagef"></div>
+				</div>
+				<div class="form-group">
+					<div class="input-group">
+						<!-- <input type="text" class="form-control validate[required]" name="name" value="${hobbies[5].name }" placeholder="<spring:message code="hobby.name" />..."> -->
+						<input type="text" class="form-control validate[required]" name="name" th:value="${hobbies[5].name }" th:placeholder="#{hobby.name}" />
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="edit-panel-footer col-md-12">
+		<button type="button" class="btn btn-primary save-btn">
+			<i class="fa fa-floppy-o"></i>
+			<!-- <spring:message code="button.save" /> -->
+			<span th:text="#{button.save}"></span>
+		</button>
+		<button type="button" class="btn btn-default cancel-btn">
+			<i class="fa fa-times"></i>
+			<!-- <spring:message code="button.cancel" /> -->
+			<span th:text="#{button.cancel}"></span>
+		</button>
+	</div>
+</form>0.

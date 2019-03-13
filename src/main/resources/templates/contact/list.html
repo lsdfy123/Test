@@ -1,0 +1,28 @@
+﻿<!-- 联系我数据列表 -->
+<table class="table table-striped">
+	<thead>
+		<tr>
+			<th>#</th>
+			<th><span th:text="#{contact.name}"></span></th>
+			<th><span th:text="#{contact.email}"></span></th>
+			<th><span th:text="#{contact.message}"></span></th>
+			<th width="20%"><span th:text="#{label.createTime}"></span></th>
+			<th width="10%"><span th:text="#{label.operate}"></span></th>
+		</tr>
+	</thead>
+	<tbody>
+			<tr th:each="item,status:${contacts}">
+				<th scope="row" th:text="${status.count}"></th>
+				<td th:text="${item.name}"></td>
+				<td th:text="${item.email}"></td>
+				<td th:text="${item.message}"></td>
+				<td th:text="${item.createTimeStr}"></td>
+				<td>
+					<button type="button" class="btn btn-danger btn-xs" onclick="doDeleteContact('${item.id}')">
+						<i class="fa fa-trash-o fa-fw"></i>
+						<span th:text="#{button.delete}"></span>
+					</button>
+				</td>
+			</tr>
+	</tbody>
+</table>

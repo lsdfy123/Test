@@ -1,0 +1,23 @@
+<div class="container">
+	<h3>
+		<!--  <spring:message code="section.hobby" />-->
+		<span th:text="#{section.hobby}"></span>
+	</h3>
+	<div class="strip text-center">
+		<!-- <img src="images/pro.png" alt=" " class="edit-btn" data-url="/hobby/form" data-title="<spring:message code="section.hobby" />"/> -->
+		<img src="images/pro.png" alt=" " class="edit-btn" data-url="/hobby/form" th:data-title="#{section.hobby}"/>
+	</div>
+	<div class="hobby-girds">
+		<!-- <c:forEach var="item" items="${hobbies}" varStatus="status"> -->
+		<tr th:each="item,status:${hobbies}">
+			<div class="col-md-2 col-sm-4 col-xs-6 hobby-pad">
+				<div class="hobby-gird">
+					<div class="hobby-image-${status.index }"></div>
+					<!-- <p>${item.name }</p> -->
+					<p th:text="${item.name }"></p>
+				</div>
+			</div>
+		</tr>
+		<div class="clearfix"></div>
+	</div>
+</div>

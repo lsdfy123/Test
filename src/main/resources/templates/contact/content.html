@@ -1,0 +1,78 @@
+﻿<script>
+    $(function() {
+        var $contactMeForm = $('#contactMe');
+
+        //定义FormOptions
+        var submitFormOptions = {
+            url : '/contact/send',
+            type : 'POST',
+            success : function(data) {
+                stopLoading($('body'));
+                //跟据状态判断是否保存成功
+                if (data.status == '0') {
+                    toastr.success(Message.send_success);
+                } else {
+                    toastr.error(Message.send_fail + data.data);
+                }
+            },
+            error : function(context, xhr) {
+                toastr.error(Message.send_fail + context.responseText);
+            }
+        };
+
+        //发送
+        $contactMeForm.find('.send-btn').click(function(e) {
+            //输入有效性验证
+            var isValid = $contactMeForm.validationEngine('validate', {
+                scroll : false,
+                autoHidePrompt : true,
+                // 自定义错误提示
+                custom_error_messages : {}
+            });
+            // 校验不通过不提交到后台
+            if (!isValid) {
+                return false;
+            }
+
+            //提交ajax form请求
+            $contactMeForm.ajaxSubmit(submitFormOptions);
+        })
+
+    });
+</script>
+
+<div class="container">
+	<div class="contact-info text-center">
+		<h3>
+			<span th:text="#{section.contact}"></span>
+		</h3>
+		<div class="strip text-center">
+			<img src="images/con1.png" alt=" " class="edit-btn" data-url="/contact/main" th:data-title="#{section.contact}" />
+		</div>
+	</div>
+	<div class="contact-grids">
+		<div class="col-md-12 ">
+			<form id="contactMe" class="form-horizontal" role="form" method="post">
+				<div class="form-group">
+					<!-- 名称 -->
+					<input type="text" name="name" class="form-control validate[required]" th:placeholder="#{contact.name}" />
+				</div>
+				<div class="form-group">
+					<!-- 邮件 -->
+					<input type="text" name="email" class="form-control validate[required]" th:placeholder="#{contact.email}" />
+				</div>
+				<div class="form-group">
+					<!-- 消息 -->
+					<textarea name="message" class="form-control validate[required]" rows="7" th:placeholder="#{contact.message}" ></textarea>
+				</div>
+				<div class="form-group">
+					<!-- 发送 -->
+					<button type="button" class="btn btn-primary btn-lg btn-block send-btn">
+						<span th:text="#{button.send}"></span>
+					</button>
+				</div>
+			</form>
+		</div>
+		<div class="clearfix"></div>
+	</div>
+</div>

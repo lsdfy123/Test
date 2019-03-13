@@ -1,0 +1,43 @@
+server:
+  port: 8080
+
+spring: 
+    # 数据源配置，使用 druid
+    datasource:
+        name: test
+        url: jdbc:mysql://127.0.0.1:3306/resume
+        username: root
+        password: 123345
+        driver-class-name: com.mysql.jdbc.Driver
+        type: com.alibaba.druid.pool.DruidDataSource
+    thymeleaf:
+        cache: false
+        suffix: .html
+        encoding: UTF-8
+        content-type: text/html
+        mode: HTML5
+    # 发送邮件的相关配置
+    mail:
+        host: smtp.qq.com
+        port: 25
+        protocol: smtp
+        # 邮箱的账户密码
+        username: 1665988287@qq.com
+        password: vkmfpwcbadaudaed
+        defaultEncoding: UTF-8
+        properties: 
+            mail.smtp.auth: true
+            mail.smtp.starttls.enable: true
+    # 国际化的相关配置
+    messages:
+        basename: i18n/message
+        encoding: UTF-8
+        always-use-message-format: true
+        fallback-to-system-locale: true
+
+# Mybatis 的相关配置
+mybatis:
+  # 扫描配置文件
+  mapper-locations: classpath:mapper/*.xml
+  # 别名的配置
+  type-aliases-package: online.shixun.project.entity
